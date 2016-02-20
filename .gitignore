@@ -1,0 +1,10 @@
+.*
+code
+dwm
+games
+Downloads
+Steam
+downloads
+!/.vim
+!/.gitignore
+!/.vimrc
