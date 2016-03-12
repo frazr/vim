@@ -8,6 +8,8 @@ set autoindent
 set cursorline " Line follows cursor
 set ignorecase " For case insensitive search
 set wildmenu " Better command-line completion
+set guioptions-=m  "remove menu bar Gvim
+set guioptions-=T  "remove toolbar Gvim
 
 vnoremap . :norm.<CR>
 vnoremap ä @
