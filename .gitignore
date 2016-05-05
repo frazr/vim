@@ -17,9 +17,7 @@
 .pki/
 .profile
 .ssh/
-.vim/
 .viminfo
-.vimrc
 .xsession-errors
 projects/
 downloads/
