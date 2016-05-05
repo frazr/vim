@@ -1,4 +1,6 @@
 execute pathogen#infect()
+
+let g:solarized_termcolors=256
 colorscheme solarized
 syntax on
 filetype plugin indent on
