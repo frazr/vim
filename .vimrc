@@ -1,9 +1,15 @@
 execute pathogen#infect()
-colorscheme monokai 
+colorscheme solarized
 syntax on
 filetype plugin indent on
 set number
-set smarttab
+
+set background=dark
+set autoindent
+set tabstop=2
+set shiftwidth=2
+set noexpandtab
+
 set autoindent
 set cursorline " Line follows cursor
 set ignorecase " For case insensitive search
