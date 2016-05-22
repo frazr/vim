@@ -1,5 +1,10 @@
 execute pathogen#infect()
 
+" 
+" Swap file directory
+"
+set directory^=$HOME/.vim/tmp//
+
 let g:solarized_termcolors=256
 set t_Co=256
 
@@ -18,6 +23,7 @@ set ignorecase " For case insensitive search
 set wildmenu " Better command-line completion
 set guioptions-=m  "remove menu bar Gvim
 set guioptions-=T  "remove toolbar Gvim
+set noexpandtab
 
 vnoremap . :norm.<CR>
 vnoremap ä @
