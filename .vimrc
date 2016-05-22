@@ -1,16 +1,16 @@
 execute pathogen#infect()
 
 let g:solarized_termcolors=256
+set t_Co=256
+
 colorscheme solarized
 syntax on
 filetype plugin indent on
 set number
 
 set background=dark
-set autoindent
 set tabstop=2
 set shiftwidth=2
-set noexpandtab
 
 set autoindent
 set cursorline " Line follows cursor
@@ -89,6 +89,15 @@ nnoremap tj  :tabprev<CR>
 nnoremap tk  :tabnext<CR>
 nnoremap tl  :tablast<CR>
 nnoremap <Enter> i<Enter>
+
+" 
+" Ignore the arrow keys until we learn.
+"
+"
+map <Left> <Nop>
+map <Right> <Nop>
+map <Up> <Nop>
+map <Down> <Nop>
 
 " Ctrl F - Find
 call CreateShortcut("C-f", ":/", "in", "noTrailingIInInsert")
