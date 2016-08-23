@@ -3,7 +3,7 @@
 # Backup old .vimrc
 if [ -f "$HOME/.vimrc" ]; then
   echo "Backup old .vimrc to .vimrc.old"
-    mv $HOME/.vimrc $HOME/.vimrc.old
+  mv $HOME/.vimrc $HOME/.vimrc.old
 fi
 
 if [ -d "$HOME/.vim" ]; then
@@ -16,6 +16,7 @@ dir="$(dirname $(readlink -f "$0"))"
 echo "Creating .vim and .vimrc..."
 cp "${dir}/.vimrc"  $HOME/.vimrc
 cp -R "${dir}/.vim" $HOME/.vim
+mkdir -p $HOME/.vim/tmp
 # Ready
 echo
 echo "Installed!"
