@@ -4,6 +4,8 @@ execute pathogen#infect()
 " Swap file directory
 "
 set directory^=$HOME/.vim/tmp//
+set undodir=$HOME/.vim/tmp//
+set undofile
 
 let g:solarized_termcolors=256
 set t_Co=256
