@@ -4,17 +4,15 @@ execute pathogen#infect()
 " Swap file directory
 "
 set directory^=$HOME/.vim/tmp//
-set undodir=$HOME/.vim/tmp//
-set undofile
 
 let g:solarized_termcolors=256
 set t_Co=256
 
-colorscheme solarized
+colorscheme molokai
 syntax on
-filetype plugin indent on
 set number
-
+set undofile
+set undodir=$HOME/.vim/undo
 set background=dark
 set tabstop=2
 set shiftwidth=2
@@ -26,6 +24,10 @@ set wildmenu " Better command-line completion
 set guioptions-=m  "remove menu bar Gvim
 set guioptions-=T  "remove toolbar Gvim
 set noexpandtab
+
+autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
+
+filetype plugin indent on
 
 vnoremap . :norm.<CR>
 vnoremap ä @
