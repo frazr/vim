@@ -19,7 +19,8 @@ set undodir=~/.vim/tmp
 set background=dark
 set tabstop=2
 set shiftwidth=2
-
+set mouse=v
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 set autoindent
 set cursorline " Line follows cursor
 set ignorecase " For case insensitive search
@@ -27,6 +28,7 @@ set wildmenu " Better command-line completion
 set guioptions-=m  "remove menu bar Gvim
 set guioptions-=T  "remove toolbar Gvim
 set noexpandtab
+set guifont=Bitstream\ Vera\ Sans\ Mono\ 13
 
 autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
 
