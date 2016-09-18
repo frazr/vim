@@ -3,16 +3,19 @@ execute pathogen#infect()
 " 
 " Swap file directory
 "
-set directory^=$HOME/.vim/tmp//
+set directory^=~/.vim/tmp
 
 let g:solarized_termcolors=256
+let g:javascript_plugin_jsdoc = 1
+let g:jsx_ext_required = 0
 set t_Co=256
 
 colorscheme molokai
 syntax on
+
 set number
 set undofile
-set undodir=$HOME/.vim/undo
+set undodir=~/.vim/tmp
 set background=dark
 set tabstop=2
 set shiftwidth=2
