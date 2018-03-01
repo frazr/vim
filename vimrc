@@ -33,7 +33,6 @@ map <Leader>L :set invnumber<CR>
 set splitbelow
 set splitright
 
-
 "------  Generic Behavior  ------
 set tabstop=4
 set shiftwidth=4
@@ -106,6 +105,7 @@ nnoremap <Leader>k <C-w>k
 nnoremap <Leader>= :wincmd =<CR>
 
 
+
 "------  Buffer Navigation  ------
 " Ctrl Left/h & Right/l cycle between buffers
 noremap <silent> <C-left> :bprev<CR>
@@ -130,26 +130,52 @@ set smartcase
 set hlsearch
 
 " Clear search highlights when pressing <Leader>b
-nnoremap <silent> <leader>b :nohlsearch<CR>
+nnoremap <silent> <Leader>b :nohlsearch<CR>
 
 " http://www.vim.org/scripts/script.php?script_id=2572
 " <Leader>a will open a prmompt for a term to search for
-noremap <leader>a :Ack 
+noremap <Leader>a :Ack 
 
 " <Leader>A will close the new window created for that ack search
-noremap <leader>A <C-w>j<C-w>c<C-w>l
+noremap <Leader>A <C-w>j<C-w>c<C-w>l
 
 let g:ackprg="ag --vimgrep --column"
 
-" CtrlP will load from the CWD, makes it easier with all these nested repos
-let g:ctrlp_working_path_mode = ''
-
-" CtrlP won't show results from node_modules
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|coverage|target|dist)|(\.(swp|ico|git|svn|png|jpg|gif|ttf))$'
+" FZF
+let g:fzf_action = {
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit'
+      \ }
+let g:fzf_prefer_vim_terminal = 1
 
 "type S, then type what you're looking for, a /, and what to replace it with
 nmap S :%s//g<LEFT><LEFT>
 vmap S :s//g<LEFT><LEFT>
+
+"Omnicomplete smart completion
+function! Smart_TabComplete()
+  let line = getline('.')                         " current line
+
+  let substr = strpart(line, -1, col('.')+1)      " from the start of the current
+                                                  " line to one character right
+                                                  " of the cursor
+  let substr = matchstr(substr, "[^ \t]*$")       " word till cursor
+  if (strlen(substr)==0)                          " nothing to match on empty string
+    return "\<tab>"
+  endif
+  let has_period = match(substr, '\.') != -1      " position of period, if any
+  let has_slash = match(substr, '\/') != -1       " position of slash, if any
+  if (!has_period && !has_slash)
+    return "\<C-X>\<C-P>"                         " existing text matching
+  elseif ( has_slash )
+    return "\<C-X>\<C-F>"                         " file matching
+  else
+    return "\<C-X>\<C-O>"                         " plugin matching
+  endif
+endfunction
+
+"Insert mapping to shift-tab
+inoremap <S-Tab> <c-r>=Smart_TabComplete()<CR>
 
 
 "------  NERDTree Options  ------
@@ -164,6 +190,9 @@ noremap <silent> <Leader>n :NERDTreeToggle<CR>
 noremap <silent> <Leader>m :NERDTreeFocus<CR>
 " Focus on NERDTree with the currently opened file with <Leader>M
 noremap <silent> <Leader>M :NERDTreeFind<CR>
+
+" FZF Ctrl - P
+nnoremap <c-p> :FZF<cr>
 
 " These prevent accidentally loading files while focused on NERDTree
 autocmd FileType nerdtree noremap <buffer> <c-left> <nop>
@@ -182,7 +211,6 @@ let g:NERDTreeShowHidden=1
 
 
 "------  Fugitive Plugin Options  ------
-"https://github.com/tpope/vim-fugitive
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gr :Gremove<CR>
 nnoremap <Leader>gl :Glog<CR>
@@ -192,6 +220,11 @@ nnoremap <Leader>gp :Ggrep
 nnoremap <Leader>gR :Gread<CR>
 nnoremap <Leader>gg :Git 
 nnoremap <Leader>gd :Gdiff<CR>
+
+"------ Tag jump/find quick functions ------
+nnoremap <Leader>r :tselect 
+nnoremap <F12> :tselect 
+nnoremap § :tselect <c-r>=expand("<cword>")<cr><cr>
 
 
 "------  Git Gutter Options ------
@@ -205,9 +238,6 @@ map <Leader>T :%s/\s\+$//<CR>
 " <Leader>U = Deletes Unwanted empty lines
 map <Leader>U :g/^$/d<CR>
 
-" <Leader>R = Converts tabs to spaces in document
-map <Leader>R :retab<CR>
-
 
 "------  JSON Filetype Settings  ------
 au BufRead,BufNewFile *.json set filetype=json
@@ -218,41 +248,16 @@ autocmd BufNewFile,BufRead *.jshintrc set filetype=json
 autocmd BufNewFile,BufRead *.eslintrc set filetype=json
 
 
-"------  CoffeeScript Filetype Settings  ------
-au BufNewFile,BufReadPost *.coffee set shiftwidth=2 softtabstop=2 expandtab
-autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-"au BufWritePost *.coffee silent make!
-autocmd QuickFixCmdPost * nested cwindow | redraw!
-
-
-"------  JSX Filetype Settings ------
-autocmd! BufEnter *.jsx let b:syntastic_checkers=['eslint']
-autocmd! BufEnter *.js let b:syntastic_checkers=['eslint']
-
-
-"------  EJS Filetype Settings  ------
-au BufNewFile,BufRead *.ejs set filetype=html
-
-
-"------  Flow Filetype Settings  ------
-let g:javascript_plugin_flow = 1
-au BufNewFile,BufRead *.flow set filetype=javascript
-
-
-"------  SCSS Filetype Settings  ------
-autocmd FileType scss set iskeyword+=-
-
-
 "------  Markdown Settings  ------
 let g:vim_markdown_folding_disabled = 1
 
 
 "------  Airline Settings ------
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = ' '
+"let g:airline_left_sep=''
+"let g:airline_right_sep=''
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = ' '
 
 
 "------  Text File Settings  ------
@@ -300,11 +305,6 @@ if has("gui_running")
 
 		" Cmd+Shift+N = new buffer
 		map <silent> <D-N> :enew<CR>
-
-		" Cmd+P = CtrlP
-		" TODO: This doesn't actually work, still opens Print dialog
-		macmenu File.Print key=<nop>
-		nnoremap <silent> <D-p> :CtrlP<CR>
 
 		" Cmd+t = new tab
 		nnoremap <silent> <D-t> :tabnew<CR>
@@ -375,13 +375,10 @@ if has("gui_running")
 		map <silent> <A-7> 7gt
 		map <silent> <A-8> 8gt
 		map <silent> <A-9> 9gt
-
-	elseif has("gui_win32") " Windows
-		" WHAT ARE YOU DOING WITH YOUR LIFE?!
 	endif
 else
 	set t_Co=256
-	colorscheme Mustang
+	colorscheme PaperColor
 	set mouse=a
 endif
 
